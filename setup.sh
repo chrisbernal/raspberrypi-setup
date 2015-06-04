@@ -1,6 +1,8 @@
 #!/bin/bash
 raspi-config
 
+. .profile
+
 adduser chris
 adduser chris sudo
 
