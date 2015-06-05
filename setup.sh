@@ -87,13 +87,16 @@ fi
 
 
 if ask "Install drivers for TP-Link TL-WN725N?"
-  wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20140307.tar.gz
-  tar -zxvf 8188eu-20140307.tar.gz
-  cp rtl8188eufw.bin /lib/firmware/rtlwifi
-  install -p -m 644 8188eu.ko /lib/modules/3.10.33+/kernel/drivers/net/wireless
-  insmod /lib/modules/3.10.33+/kernel/drivers/net/wireless/8188eu.ko
-  depmod -a
+  wget http://gordon.d4rc.net/8188eu_3.12.28.zip
+  sudo rm /lib/modules/3.12.28+/kernel/drivers/net/wireless/8188eu.ko /lib/firmware/rtlwifi/rtl8188eufw.bin
+  unzip 8188eu_3.12.28.zip
+  sudo cp rtl8188eufw.bin /lib/firmware/rtlwifi
+  sudo install -p -m 644 8188eu.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless/
+  sudo insmod /lib/modules/$(uname -r)/kernel/drivers/net/wireless/8188eu.ko
+  sudo depmod -a
+  rm -r 8188eu_3.12.2*
 fi
+
 
 if ask "Do you want to set up wifi?"; then
   apt-get install -y  wicd-curses
@@ -113,3 +116,21 @@ fi
 if ask "reboot now?"; then
   reboot
 fi
+
+
+
+# sudo nano /etc/network/interfaces
+#
+#
+# auto lo
+#
+# iface lo inet loopback
+# iface eth0 inet dhcp
+#
+# allow-hotplug wlan0
+# auto wlan0
+# iface wlan0 inet dhcp
+#         wpa-ssid "your-ssid"
+#         wpa-psk "your-password"
+# #wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+# iface default inet dhcp
