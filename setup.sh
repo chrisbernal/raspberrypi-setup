@@ -50,7 +50,7 @@ fi
 # xxxxxxxxxxxxx
 # -----------------------------------------------------------------------------
 if ask "Add .profile for user 'pi'?"; then
-  PI = true
+  PI=true
   rm -r -f /home/pi/.profile
   ln -s -f setup/.profile /home/pi/
   echo "reloading bash profile"
