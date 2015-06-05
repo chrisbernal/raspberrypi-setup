@@ -28,84 +28,51 @@ ask() {
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
 if ask "Set up a new user?"; then
+  echo ""
   echo "please enter a username"
   read USER
-  echo "adding new user"
   adduser $USER
-  echo "adding new user to sudoers"
   adduser $USER sudo
-  echo "deleting old .profile"
   rm -r -f /home/$USER/.profile
-  echo "symlinking new .profile"
   ln -s -f setup/.profile /home/$USER/
 fi
 
 
-
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
 if ask "Add .profile for user 'pi'?"; then
   PI=true
   rm -r -f /home/pi/.profile
   ln -s -f setup/.profile /home/pi/
-  echo "reloading bash profile"
   . /home/pi/.profile
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
+
 if ask "Run raspi-config?"; then
-  echo "running raspi-config"
   raspi-config
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
 if ask "Run apt-get update and apt-get upgrade?"; then
-  echo "updating"
   apt-get update -y && apt-get upgrade -y
+  apt-get install rpi-update -y
+  rpi-update
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
 if ask "install utils?"; then
-echo "installing utils"
-apt-get install samba samba-common-bin git screen avahi-daemon screen tmux curl ranger dialog htop boxes usbmount -y
+  apt-get install samba samba-common-bin git screen avahi-daemon screen tmux curl ranger dialog htop boxes usbmount -y
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
-if ask "update rpi?"; then
-echo "updating rpi"
-rpi-update
-fi
 
-
-
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
 if ask "Do you want to set up samba sharing?"; then
   rm -rf /etc/samba/smb.conf
   cp setup/smb.conf /etc/samba/smb.conf
-  echo "adding users to samba share"
   smbpasswd –a root
   if $PI; then
   smbpasswd –a pi
@@ -113,32 +80,36 @@ if ask "Do you want to set up samba sharing?"; then
   if $USER; then
   smbpasswd –a $USER
   fi
-  echo "restarting samba"
   /etc/init.d/samba stop 
   /etc/init.d/samba start
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
-if ask "Do you want to set up wifi with wicd-curses?"; then
-apt-get install -y  wicd-curses
-echo "setting up wifi"
-echo "---------------"
-echo "use the up and down arrow keys to navigate to your preferred network"
-echo "then use the right arrow to config, enter the password and enable auto connect"
-echo "then press q to quit"
-wicd-curses
+if ask "Install drivers for TP-Link TL-WN725N?"
+  wget https://dl.dropboxusercontent.com/u/80256631/8188eu-20140307.tar.gz
+  tar -zxvf 8188eu-20140307.tar.gz
+  cp rtl8188eufw.bin /lib/firmware/rtlwifi
+  install -p -m 644 8188eu.ko /lib/modules/3.10.33+/kernel/drivers/net/wireless
+  insmod /lib/modules/3.10.33+/kernel/drivers/net/wireless/8188eu.ko
+  depmod -a
+fi
+
+if ask "Do you want to set up wifi?"; then
+  apt-get install -y  wicd-curses
+  wicd-curses
 fi
 
 
 
-# -----------------------------------------------------------------------------
-# xxxxxxxxxxxxx
-# -----------------------------------------------------------------------------
+if ask "Install Adafruit 3.5 inch TFT drivers?"; then
+  curl -SLs https://apt.adafruit.com/add | sudo bash
+  sudo apt-get install raspberrypi-bootloader-adafruit-pitft
+  sudo apt-get install adafruit-pitft-helper
+fi
+
+
+
 if ask "reboot now?"; then
-  echo "rebooting"
   reboot
 fi
