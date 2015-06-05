@@ -33,7 +33,8 @@ echo "updating rpi"
 rpi-update
 
 echo "edit line 250 of this file to 'no' instead of 'yes'"
-nano /etc/samba/smb.conf
+rm -rf /etc/samba/smb.conf
+cp setup/smb.conf /etc/samba/smb.conf
 
 echo "adding users to samba share"
 smbpasswd –a root
