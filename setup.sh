@@ -27,7 +27,8 @@ echo "updating"
 apt-get update -y && apt-get upgrade -y
 
 echo "installing utils"
-apt-get install samba samba-common-bin git screen avahi-daemon screen tmux curl ranger dialog htop boxes usbmount wicd-curses -y
+apt-get install samba samba-common-bin git screen avahi-daemon screen tmux curl ranger dialog htop boxes usbmount -y
+#apt-get install -y  wicd-curses
 
 echo "updating rpi"
 rpi-update
@@ -46,12 +47,12 @@ echo "restarting samba"
 /etc/init.d/samba stop 
 /etc/init.d/samba start
 
-echo "setting up wifi"
-echo "---------------"
-echo "use the up and down arrow keys to navigate to your preferred network"
-echo "then use the right arrow to config, enter the password and enable auto connect"
-echo "then press q to quit"
-wicd-curses
+#echo "setting up wifi"
+#echo "---------------"
+#echo "use the up and down arrow keys to navigate to your preferred network"
+#echo "then use the right arrow to config, enter the password and enable auto connect"
+#echo "then press q to quit"
+#wicd-curses
 
 echo "rebooting"
 reboot
