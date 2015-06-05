@@ -6,14 +6,22 @@ read USER
 echo "running raspi-config"
 raspi-config
 
-echo "loading bash profile"
-. .profile
-
 echo "adding new user"
 adduser $USER
 
 echo "adding new user to sudoers"
 adduser $USER sudo
+
+echo "deleting old .profile"
+rm -r -f /home/pi/.profile
+rm -r -f /home/$USER/.profile
+
+echo "symlinking new .profile"
+ln -s -f setup/.profile /home/pi/
+ln -s -f setup/.profile /home/$USER/
+
+echo "reloading bash profile"
+. /home/pi/.profile
 
 echo "updating"
 apt-get update -y && apt-get upgrade -y
