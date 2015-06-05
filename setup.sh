@@ -21,7 +21,7 @@ ln -s -f setup/.profile /home/pi/
 ln -s -f setup/.profile /home/$USER/
 
 echo "reloading bash profile"
-. /home/pi/.profile
+. .profile
 
 echo "updating"
 apt-get update -y && apt-get upgrade -y
