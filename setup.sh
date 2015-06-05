@@ -39,6 +39,7 @@ if ask "Set up a new user?"; then
 fi
 
 
+
 if ask "Add .profile for user 'pi'?"; then
   PI=true
   rm -r -f /home/pi/.profile
