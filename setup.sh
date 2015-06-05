@@ -87,14 +87,9 @@ fi
 
 
 if ask "Install drivers for TP-Link TL-WN725N?"
-  wget http://gordon.d4rc.net/8188eu_3.12.28.zip
-  sudo rm /lib/modules/3.12.28+/kernel/drivers/net/wireless/8188eu.ko /lib/firmware/rtlwifi/rtl8188eufw.bin
-  unzip 8188eu_3.12.28.zip
-  sudo cp rtl8188eufw.bin /lib/firmware/rtlwifi
-  sudo install -p -m 644 8188eu.ko /lib/modules/$(uname -r)/kernel/drivers/net/wireless/
-  sudo insmod /lib/modules/$(uname -r)/kernel/drivers/net/wireless/8188eu.ko
+  sudo wget http://raspberry-at-home.com/files/8188eu.ko -O /lib/modules/`uname -r`/kernel/drivers/net/wireless/8188eu.ko
   sudo depmod -a
-  rm -r 8188eu_3.12.2*
+  sudo modprobe 8188eu
 fi
 
 
