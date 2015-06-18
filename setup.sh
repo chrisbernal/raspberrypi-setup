@@ -40,15 +40,15 @@ function reboot_now() {
 function if_user_exists() {
   UserExist()
   {
-     awk -F":" '{ print $1 }' /etc/passwd | grep -x $1 > /dev/null
+     awk -F":" '{ print $1 }' /etc/passwd | grep -x "$1" > /dev/null
      return $?
   }
-  UserExist $1
+  UserExist "$1"
   if [ $? = 0 ]; then
-     sudo rm -rf /home/$1/.profile
-     sudo git clone https://gist.github.com/e022cdfada270a414418.git /home/$1/.profile
+     sudo rm -rf /home/"$1"/.profile
+     sudo git clone https://gist.github.com/e022cdfada270a414418.git /home/"$1"/.profile
   else
-    echo '$1 user account does not exist. skipping profile install.'
+    echo "$1 user account does not exist. skipping profile install."
   fi
 }
 
@@ -70,9 +70,9 @@ function RUN_SETUP() {
       REBOOT_NOW )              reboot_now;;
       EXIT )                    exit;;
   esac
+  done
   clear
   RUN_SETUP
-  done
 }
 
 
