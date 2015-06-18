@@ -7,10 +7,12 @@
 function YESNO() {
   echo "Run $1?"
   select yn in "Yes" "No"
+  do
   case $yn in
       Yes ) $1;;
       No ) exit;;
   esac
+  done
 }
 
 
