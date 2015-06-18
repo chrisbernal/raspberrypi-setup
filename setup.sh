@@ -10,7 +10,7 @@ function YESNO() {
   do
   case $yn in
       Yes ) $1;;
-      No ) exit;;
+      No ) echo "Skipped $1";;
   esac
   done
 }
