@@ -13,6 +13,7 @@ function YESNO() {
       No ) echo "Skipped $1";;
   esac
   done
+  unset YESNO
 }
 
 
@@ -39,7 +40,6 @@ function if_user_exists() {
 function install_bash_profile() {
   if_user_exists chris
   if_user_exists pi
-
 }
 function tplink_driver_install() {
   sudo wget https://github.com/lwfinger/rtl8188eu/raw/c83976d1dfb4793893158461430261562b3a5bf0/rtl8188eufw.bin -O /lib/firmware/rtlwifi/rtl8188eufw.bin
