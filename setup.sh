@@ -70,6 +70,7 @@ function RUN_SETUP() {
       REBOOT_NOW )              reboot_now;;
       EXIT )                    exit;;
   esac
+  RUN_SETUP
   done
 }
 
