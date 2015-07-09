@@ -1,7 +1,5 @@
 ```
-cd
-git clone https://github.com/chrisbernal/RaspberryPiSetup.git setup
-sudo sh setup/setup.sh
-
-TEST
+git clone https://github.com/chrisbernal/RaspberryPiSetup.git ~/setup
+cd ~/setup
+sh setup.sh
 ```
