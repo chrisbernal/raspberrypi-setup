@@ -4,7 +4,9 @@
 source ~/setup/ask.sh
 source ~/setup/functions.sh
 
-
+if ask "install zsh?" Y; then
+zshsetup
+fi
 
 if ask "install raspi-config?" N; then
 raspiconfig
